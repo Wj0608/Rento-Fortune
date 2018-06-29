@@ -8,6 +8,7 @@ import random
 import time
 import multiprocessing
 from multiprocessing import Process
+from block import Block
 
 
 def run(): #TODO: put player into a list
@@ -15,10 +16,6 @@ def run(): #TODO: put player into a list
     p1 = player.Player('player1', 5000, m)
     p2 = player.Player('player2', 5000, m)
     p3 = player.Player('player3', 5000, m)
-
-    # m.map[2].owner = p1
-    # m.map[3].owner = p1
-
     n = 0
     while p1.balance>0 and p2.balance>0 and p3.balance>0:
         print("\nRound %d" % n)

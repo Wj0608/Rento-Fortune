@@ -13,7 +13,9 @@ d. The player can only stay in jail for 3 turns.
 
 e. The player will evaluate whether to use protection card or not.
 
-d. The fee for station will vary, depending on the number of stations the player owns.
+f. The fee for station will vary, depending on the number of stations the player owns.
+
+g. The player will choose to travel to a best station for him.
 
 
 TODO:
@@ -21,8 +23,6 @@ a. Wrap all players into a list
 
 b. Trade
 
-c. Travel
+c. Add more interesting chance cards
 
-d. Add more interesting chance cards
-
-e. ...
+d. ...

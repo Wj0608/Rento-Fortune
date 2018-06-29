@@ -1,6 +1,7 @@
 __author__ = 'DELL'
 
 import random
+import sys
 
 class Block:
 
@@ -140,8 +141,6 @@ class Block:
                     if b.type == 'st' and b.owner == p:
                         count += 1
                         blist.append(b)
-                print("blist")
-                print(blist)
                 for b in blist:
                     b.fee = count * 50
                 p.balance -= self.price
@@ -158,6 +157,22 @@ class Block:
                         print("cancel one tax")
             if self.owner == p:
                 print("travel")  # TODO: travel
+                ilist = []  # a list of index
+                pos_copy = p.pos
+                for b in p.map.map:
+                    if b.type == 'st' and b.owner == p:
+                        ilist.append(p.map.map.index(b))
+                m = sys.maxsize
+                if len(ilist) > 1:
+                    for i in ilist:
+                        p.pos = i
+                        temp = p.evaluate()
+                        if temp < m:
+                            m = temp
+                            pos_copy = i
+                    p.pos = pos_copy
+                    print("travel to %s" % p.map.map[p.pos].name)
+
         if self.type == 'ch':  # 教堂 踩一脚付当前5%，自己踩得当前5%，价格为当前20%
             if self.owner is None:
                 print("this is an empty church")

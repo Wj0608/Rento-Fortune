@@ -58,11 +58,13 @@ class Player:
         prob = 1/6 - abs(7-pos+self.pos)/36
         if pos >= len(self.map.map):
             pos -= len(self.map.map)
+        if self.map.map[pos].type == 'ch' and self.map.map[pos].owner == self:  # 自己教堂
+            return -self.balance * self.map.map[pos].fee * prob
         if (self.map.map[pos].owner is not None) and self.map.map[pos].owner != self:
             if self.map.map[pos].type == 'l' or self.map.map[pos].type == 'st' or self.map.map[pos].type == 'ch':
-                if self.map.map[pos].type == 'ch':
+                if self.map.map[pos].type == 'ch':  # 别人教堂
                     return self.balance * self.map.map[pos].fee * prob
-                else:
+                else:  # 别人房子、车站
                     return self.map.map[pos].fee * prob
         return 0
 
