@@ -156,7 +156,7 @@ class Block:
                         p.is_protected = False
                         print("cancel one tax")
             if self.owner == p:
-                print("travel")  # TODO: travel
+                print("travel")
                 ilist = []  # a list of index
                 pos_copy = p.pos
                 for b in p.map.map:
