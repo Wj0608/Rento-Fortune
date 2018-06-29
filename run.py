@@ -23,15 +23,15 @@ def run(): #TODO: put player into a list
     while p1.balance>0 and p2.balance>0 and p3.balance>0:
         print("\nRound %d" % n)
         print("Player 1's turn")
-        p1.roll()
+        p1.start()
         while not p1.finish:
             time.sleep(1)
         print("\nPlayer 2's turn")
-        p2.roll()
+        p2.start()
         while not p2.finish:
             time.sleep(1)
         print("\nPlayer 3's turn")
-        p3.roll()
+        p3.start()
         while not p3.finish:
             time.sleep(1)
         n += 1

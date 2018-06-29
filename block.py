@@ -30,7 +30,7 @@ class Block:
         if self.type == 'c':  # 法院
             print("go to prison")
             p.pos = 10
-            p.balance -= 100
+            p.prison = 3
         if self.type == 'pf':  # 停车扣100
             p.balance -= 100
             p.map.map[20].pf += 100
@@ -66,7 +66,7 @@ class Block:
                 p.balance *= 0.9
         if self.type == 'f':  #幸运叶
             print("pick a fortune leaf")
-            x = random.randint(0,8)
+            x = random.randint(0,10)
             if x == 0:
                 print("go to hawaii")
                 if p.pos > 38:  # 经过起点加200
@@ -81,7 +81,7 @@ class Block:
                 p.map.map[23].exec(p)
             if x == 2:
                 print("go to next station")
-                while p.map.map[p.pos] != 5 and p.map.map[p.pos] != 15 and p.map.map[p.pos] != 25 and p.map.map[p.pos] != 35:
+                while p.map.map[p.pos].type != 'st':
                     p.pos += 1
                     if p.pos >= len(p.map.map):
                         p.pos -= len(p.map.map)
@@ -98,13 +98,14 @@ class Block:
                     if p.pos >= len(p.map.map):
                         p.pos -= len(p.map.map)
                         p.balance += 200
-                    if p.map.map[p.pos].type == 'l' and p.map.map[p.pos].owner is None:
+                    if (p.map.map[p.pos].type == 'l' or p.map.map[p.pos].type == 'st' or p.map.map[p.pos].type == 'ch') and p.map.map[p.pos].owner is None:
                         p.map.map[p.pos].exec(p)
                         return
+                p.balance += random.randint(0,300)
             if x == 5:
                 print("go to prison")
                 p.pos = 10
-                p.balance -= 100
+                p.prison = 3
             if x == 6:
                 print("-3")
                 p.pos -= 3
@@ -119,6 +120,12 @@ class Block:
                     p.balance += 200
                 p.pos = 11
                 p.map.map[11].exec(p)
+            if x == 9:
+                print("get a prison card")
+                p.prison_card = True
+            if x == 10:
+                print("get a protect card")
+                p.protect_card = True
         if self.type == 'st':  # 车站
             if self.owner is None:
                 print("this is an empty station")
@@ -133,4 +140,19 @@ class Block:
                     self.owner.balance += self.fee
             if self.owner == p:
                 print("travel")  # TODO: travel
+        if self.type == 'ch':  # 教堂 踩一脚付当前5%，自己踩得当前5%，价格为当前20%
+            if self.owner is None:
+                print("this is an empty church")
+                self.owner = p
+                self.price = p.balance * 0.2
+                p.balance *= 0.8
+            else:
+                if self.owner == p:
+                    print("this is my church")
+                    p.balance *= 1.05
+                else:
+                    print("Oops")
+                    self.owner.balance += p.balance * 0.05
+                    p.balance *= 0.95
+
 
