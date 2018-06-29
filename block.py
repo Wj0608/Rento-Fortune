@@ -134,6 +134,16 @@ class Block:
             if self.owner is None:
                 print("this is an empty station")
                 self.owner = p
+                count = 0  # 该玩家拥有车站总数
+                blist = []
+                for b in p.map.map:
+                    if b.type == 'st' and b.owner == p:
+                        count += 1
+                        blist.append(b)
+                print("blist")
+                print(blist)
+                for b in blist:
+                    b.fee = count * 50
                 p.balance -= self.price
             else:
                 if self.owner == p:
