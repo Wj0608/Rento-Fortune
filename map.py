@@ -11,7 +11,7 @@ class Map:
                     Block('rotate', 'r', 0, 0), Block('station japan', 'st', 50, 50), Block('fortune', 'f', 0, 0),
                     Block('turkey', 'l', 100, 100), Block('greece', 'l', 100, 100), Block('bulgaria', 'l', 100, 100),
                     Block('prison', 'p', 0, 0), Block('poland', 'l', 100, 100), Block('russia', 'l', 100, 100),
-                    Block('ukraine', 'l', 100, 100), Block('church', 'ch', 0, 0), Block('station spain', 'st', 50, 50),
+                    Block('ukraine', 'l', 100, 100), Block('church', 'ch', 0.2, 0.05), Block('station spain', 'st', 50, 50),
                     Block('box', 'b', 0, 0), Block('lithuania', 'l', 100, 100), Block('latvia', 'l', 100, 100),
                     Block('estonia', 'l', 100, 100), Block('parking lot', 'pk', 0, 0), Block('norway', 'l', 100, 100),
                     Block('sweden', 'l', 100, 100),Block('finland', 'l', 100, 100),Block('fortune', 'f', 0, 0),

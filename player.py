@@ -16,6 +16,7 @@ class Player:
         self.prison = 0  # 还要服刑多少回合
         self.prison_card = False
         self.protect_card = False
+        self.is_protected = False
 
     def trade(self):
         print("trade")
@@ -24,15 +25,15 @@ class Player:
         print("build")
         i = 0
         while i < len(self.map.map):
-            ownall = True
+            own_all = True
             if self.map.map[i].type == 'l' and self.map.map[i].owner == self:
                 while self.map.map[i].type == 'l':
                     if self.map.map[i].owner == self:
                         i += 1
                     else:
-                        ownall = False
+                        own_all = False
                         break
-                if ownall:
+                if own_all:
                     print("adjacent land!")
                     k = i - 1
                     if self.map.map[k].fee <= 100: # 判断是否有房子
@@ -53,6 +54,36 @@ class Player:
                     while self.map.map[i].type == 'l':
                         i += 1
 
+    def evaluate_one(self, pos):
+        prob = 1/6 - abs(7-pos+self.pos)/36
+        if pos >= len(self.map.map):
+            pos -= len(self.map.map)
+        if (self.map.map[pos].owner is not None) and self.map.map[pos].owner != self:
+            if self.map.map[pos].type == 'l' or self.map.map[pos].type == 'st' or self.map.map[pos].type == 'ch':
+                if self.map.map[pos].type == 'ch':
+                    return self.balance * self.map.map[pos].fee * prob
+                else:
+                    return self.map.map[pos].fee * prob
+        return 0
+
+
+    def evaluate(self):
+        sum = 0  # 风险指数
+        for i in range(2,13):
+            sum += self.evaluate_one(self.pos+i)
+        print("expected payment is %d" % sum)
+        if sum > 200:  # 设置阈值
+            return True
+        else:
+            return False
+
+    def use_card(self):
+        if (not self.prison) and self.protect_card:
+            is_worth = self.evaluate()
+            if is_worth:
+                print("use protect card")
+                self.is_protected = True
+                self.protect_card = False
     def roll(self):
         r1 = random.randint(1, 6)
         r2 = random.randint(1, 6)
@@ -104,6 +135,7 @@ class Player:
                 print("use a prison card")
                 self.prison_card = False
                 self.prison = 0
+        self.use_card()
         self.roll()
         self.trade()
         self.build()

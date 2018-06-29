@@ -24,9 +24,13 @@ class Block:
                 if self.owner == p:
                     print("this is my land")
                 else:
-                    print("Oops")
-                    p.balance -= self.fee
-                    self.owner.balance += self.fee
+                    if not p.is_protected:
+                        print("Oops")
+                        p.balance -= self.fee
+                        self.owner.balance += self.fee
+                    else:
+                        p.is_protected = False
+                        print("cancel one tax")
         if self.type == 'c':  # 法院
             print("go to prison")
             p.pos = 10
@@ -135,24 +139,31 @@ class Block:
                 if self.owner == p:
                     print("this is my station")
                 else:
-                    print("Oops")
-                    p.balance -= self.fee
-                    self.owner.balance += self.fee
+                    if not p.is_protected:
+                        print("Oops")
+                        p.balance -= self.fee
+                        self.owner.balance += self.fee
+                    else:
+                        p.is_protected = False
+                        print("cancel one tax")
             if self.owner == p:
                 print("travel")  # TODO: travel
         if self.type == 'ch':  # 教堂 踩一脚付当前5%，自己踩得当前5%，价格为当前20%
             if self.owner is None:
                 print("this is an empty church")
                 self.owner = p
-                self.price = p.balance * 0.2
-                p.balance *= 0.8
+                p.balance *= (1 - self.price)
             else:
                 if self.owner == p:
                     print("this is my church")
-                    p.balance *= 1.05
+                    p.balance *= (1 + self.fee)
                 else:
-                    print("Oops")
-                    self.owner.balance += p.balance * 0.05
-                    p.balance *= 0.95
+                    if not p.is_protected:
+                        print("Oops")
+                        self.owner.balance += p.balance * self.fee
+                        p.balance *= (1 - self.fee)
+                    else:
+                        p.is_protected = False
+                        print("cancel one tax")
 
 
