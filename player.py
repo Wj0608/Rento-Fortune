@@ -112,7 +112,7 @@ class Player:
         self.pos += r1 + r2
         if self.pos >= len(self.map.map):
             self.pos -= len(self.map.map)
-            # self.balance += 200  # 一圈加200
+            self.balance += 200  # 一圈加200
             print("%s finishes one loop, add 200" % self.name)
         print("%s goes to block %d" % (self.name, self.pos))
         self.map.map[self.pos].exec(self)

@@ -24,6 +24,10 @@ def run():
     plist.append(p2)
     p3 = player.Player('player3', 5000, m)
     plist.append(p3)
+    p4 = player.Player('player4', 5000, m)
+    plist.append(p4)
+    p5 = player.Player('player5', 5000, m)
+    plist.append(p5)
     n = 0
     plist_copy = copy.copy(plist)
     while len(plist) > 1:
@@ -33,11 +37,14 @@ def run():
             p.start()
             while not p.finish:
                 time.sleep(1)
-            for pp in plist:
-                if pp.balance < 0:
-                    plist.remove(pp)
-                    print("%s is out" % p.name)
-                    recover(pp)
+            i = 0
+            while i < len(plist):
+                if plist[i].balance < 0:
+                    print("%s is out" % plist[i].name)
+                    recover(plist[i])
+                    plist.remove(plist[i])
+                else:
+                    i += 1
         n += 1
     print("Game is over, %s wins the Rento Fortune!" % plist[0].name)
 

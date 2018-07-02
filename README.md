@@ -19,10 +19,10 @@ g. The player will choose to travel to a best station for him.
 
 
 TODO:
-a. Wrap all players into a list
+a. Player can build different houses on land
 
 b. Trade
 
 c. Add more interesting chance cards
 
-d. ...
+d. church auction system
