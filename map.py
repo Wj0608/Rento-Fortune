@@ -19,5 +19,4 @@ class Map:
                     Block('france', 'l', 100, 100), Block('uk', 'l', 100, 100), Block('court', 'c', 0, 0), Block('canada', 'l', 100, 100),
                     Block('mexico', 'l', 100, 100), Block('usa', 'l', 100, 100), Block('box', 'b', 0, 0), Block('station uk', 'st', 100, 50),
                     Block('fortune', 'f', 0, 0), Block('dubai', 'l', 100, 100), Block('hawaii', 'l', 100, 100), Block('parking fee', 'pf', 0, 0)]
-        self.count = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-
+        self.count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

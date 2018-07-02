@@ -3,18 +3,22 @@ __author__ = 'DELL'
 import random
 import sys
 
+
 class Block:
 
     def __init__(self, n, t, p, f):
         self.name = n
         self.type = t
+        self.init_price = p
         self.price = p
+        self.init_fee = f
         self.fee = f
         self.owner = None
-        self.status = "normal"
+        self.status = "n"
         self.pf = 0
 
     def exec(self, p):
+        p.map.count[p.pos] += 1
         print("%s execute block %s" % (p.name, self.name))
         if self.type == 'l':  # 买地，收租金
             if self.owner is None:
@@ -45,10 +49,10 @@ class Block:
             self.pf = 0
         if self.type == 'b':  # 宝箱
             print("pick a box to open")
-            p.balance += random.randint(-100,300)
+            p.balance += random.randint(-100, 300)
         if self.type == 'r':  # 转盘
             print("rotate the plate")
-            x = random.randint(0,9)
+            x = random.randint(0, 9)
             if x == 0:
                 p.balance += 500
             elif x == 1:
@@ -69,9 +73,9 @@ class Block:
                 p.balance *= 0.8
             elif x == 9:
                 p.balance *= 0.9
-        if self.type == 'f':  #幸运叶
+        if self.type == 'f':  # 幸运叶
             print("pick a fortune leaf")
-            x = random.randint(0,10)
+            x = random.randint(0, 10)
             if x == 0:
                 print("go to hawaii")
                 if p.pos > 38:  # 经过起点加200
@@ -98,7 +102,7 @@ class Block:
                 p.balance += 200
             if x == 4:
                 print("go to next empty land")
-                for i in range(0,40):
+                for i in range(0, 40):
                     p.pos += 1
                     if p.pos >= len(p.map.map):
                         p.pos -= len(p.map.map)
@@ -106,7 +110,7 @@ class Block:
                     if (p.map.map[p.pos].type == 'l' or p.map.map[p.pos].type == 'st' or p.map.map[p.pos].type == 'ch') and p.map.map[p.pos].owner is None:
                         p.map.map[p.pos].exec(p)
                         return
-                p.balance += random.randint(0,300)
+                p.balance += random.randint(0, 300)
             if x == 5:
                 print("go to prison")
                 p.pos = 10
@@ -190,5 +194,3 @@ class Block:
                     else:
                         p.is_protected = False
                         print("cancel one tax")
-
-

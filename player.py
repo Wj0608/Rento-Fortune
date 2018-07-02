@@ -2,6 +2,7 @@ __author__ = 'DELL'
 
 import map
 import random
+import time
 
 
 class Player:
@@ -22,7 +23,6 @@ class Player:
         print("trade")
 
     def build(self):
-        print("build")
         i = 0
         while i < len(self.map.map):
             own_all = True
@@ -34,15 +34,22 @@ class Player:
                         own_all = False
                         break
                 if own_all:
-                    print("adjacent land!")
                     k = i - 1
-                    if self.map.map[k].fee <= 100: # 判断是否有房子
+                    if self.map.map[k].fee <= 100:  # 判断是否有房子
                         print("build house")
-                        while self.map.map[k].type == 'l':
-                            self.map.map[k].fee *= 10
-                            self.balance -= 500
-                            print("build house at %s" % self.map.map[k].name)
-                            k -= 1
+                        temp = k
+                        c = 0
+                        while self.map.map[temp].type == 'l':
+                            temp -= 1
+                            c += 1
+                        if self.balance > 500*c:  # 钱够造房子
+                            while self.map.map[k].type == 'l':
+                                self.map.map[k].fee *= 10
+                                self.balance -= 500
+                                print("build house at %s" % self.map.map[k].name)
+                                k -= 1
+                        else:
+                            print("Not enough gold to build house")
                 else:
                     while self.map.map[i].type == 'l':
                         i += 1
@@ -68,10 +75,9 @@ class Player:
                     return self.map.map[pos].fee * prob
         return 0
 
-
     def evaluate(self):
         sum = 0  # 风险指数
-        for i in range(2,13):
+        for i in range(2, 13):
             sum += self.evaluate_one(self.pos+i)
         print("expected payment is %d" % sum)
         if sum > 200:  # 设置阈值
@@ -86,6 +92,7 @@ class Player:
                 print("use protect card")
                 self.is_protected = True
                 self.protect_card = False
+
     def roll(self):
         r1 = random.randint(1, 6)
         r2 = random.randint(1, 6)
@@ -105,9 +112,8 @@ class Player:
         self.pos += r1 + r2
         if self.pos >= len(self.map.map):
             self.pos -= len(self.map.map)
-            #self.balance += 200  # 一圈加200
+            # self.balance += 200  # 一圈加200
             print("%s finishes one loop, add 200" % self.name)
-        self.map.count[self.pos] += 1
         print("%s goes to block %d" % (self.name, self.pos))
         self.map.map[self.pos].exec(self)
         if self.again:
@@ -116,7 +122,7 @@ class Player:
 
     def start(self):
         self.finish = False
-        if self.prison != 0:  #如果在服刑
+        if self.prison != 0:  # 如果在服刑
             print("in prison")
             if not self.prison_card:  # 没有出狱卡
                 x = random.randint(0, 3)  # 模拟出狱判断条件
@@ -124,15 +130,6 @@ class Player:
                     self.balance -= 100
                     self.prison = 0
                     print("pay for freedom")
-                # else:  # 不付钱
-                #     if r1 == r2:
-                #         self.prison = 0
-                #         print("lucky dog")
-                #     else:
-                #         print("still need %d turns" % self.prison)
-                #         self.prison -= 1
-                #         self.finish = True
-                #         return
             else:
                 print("use a prison card")
                 self.prison_card = False
@@ -142,4 +139,3 @@ class Player:
         self.trade()
         self.build()
         self.finish = True
-
